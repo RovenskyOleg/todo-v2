@@ -1,7 +1,7 @@
 /**
  * Created by olegrovenskyi on 06.04.16.
  */
-var Todo = require('./models/todo');
+var Todo = require('./models/todoModel');
 
 // routes ======================================================================
 
@@ -26,7 +26,8 @@ module.exports = function(app) {
 
         // create a todo, information comes from AJAX request from Angular
         Todo.create({
-            text : req.body.text
+            text: req.body.text,
+            done: false
         }, function(err, todo) {
             if (err)
                 res.send(err);
@@ -44,7 +45,7 @@ module.exports = function(app) {
     // delete a todo
     app.delete('/api/todos/:todo_id', function(req, res) {
         Todo.remove({
-            _id : req.params.todo_id
+            _id: req.params.todo_id
         }, function(err, todo) {
             if (err)
                 res.send(err);

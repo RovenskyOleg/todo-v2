@@ -42,6 +42,25 @@ module.exports = function(app) {
 
     });
 
+    // edit todo and send back all todos after creation
+    app.post('/api/todos/:todo_id', function(req, res) {
+        Todo.where({
+            _id: req.params.todo_id
+        }).update({
+            text: req.body.text
+        }, function(err, todo) {
+            if (err)
+                res.send(err);
+
+            // get and return all the todos after you update another
+            Todo.find(function(err, todos) {
+                if (err)
+                    res.send(err);
+                res.json(todos);
+            });
+        })
+    });
+
     // delete a todo
     app.delete('/api/todos/:todo_id', function(req, res) {
         Todo.remove({

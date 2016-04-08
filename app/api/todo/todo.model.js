@@ -1,6 +1,8 @@
 /**
  * Created by olegrovenskyi on 06.04.16.
  */
+'use strict';
+
 var mongoose = require('mongoose');
 
 var Todo = new mongoose.Schema({

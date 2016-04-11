@@ -8,6 +8,7 @@ var CREATED = 201;
 var NOT_FOUND = 404;
 
 var Todo = require('./todo.model.js');
+var lodash = require('lodash');
 
 exports.get = function get(req, res) {
     return Todo.find(req.params)
@@ -44,11 +45,10 @@ exports.create = function create(req, res) {
 };
 
 exports.update = function update(req, res) {
-    return Todo.where({
-            _id: req.params.todo_id
-        })
+    return Todo.findById(req.params.todo_id)
         .then(function (modelInstance) {
-            return modelInstance.update(req.body.updateObj);
+            var updatedInstance = lodash.extend(modelInstance, req.body);
+            return updatedInstance.save();
         })
         .then(function (result) {
             res.status(OK).json({

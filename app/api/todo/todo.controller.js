@@ -24,13 +24,19 @@ exports.get = function get(req, res) {
 };
 
 exports.create = function create(req, res) {
-    var modelInstance = new Todo(req.body);
-    return modelInstance.save()
-        .then(function (result) {
-            res.status(CREATED).json({
-                status: 'success',
-                response: result
-            });
+    return Todo.create(req.body)
+        .then(function () {
+            Todo.find()
+                .then(function (result) {
+                    res.status(OK).json({
+                        status: 'success',
+                        total: result.length,
+                        response: result
+                    });
+                })
+                .catch(function (err) {
+                    res.status(NOT_FOUND).json(err);
+                });
         })
         .catch(function (err) {
             res.send(err);
@@ -60,10 +66,17 @@ exports.remove = function remove(req, res) {
             _id: req.params.todo_id
         })
         .then(function (result) {
-            //res.json({
-            //    status: 'success',
-            //    response: result
-            //});
+            Todo.find()
+                .then(function (result) {
+                    res.status(OK).json({
+                        status: 'success',
+                        total: result.length,
+                        response: result
+                    });
+                })
+                .catch(function (err) {
+                    res.status(NOT_FOUND).json(err);
+                });
         })
         .catch(function (err) {
             res.status(NOT_FOUND).json(err);

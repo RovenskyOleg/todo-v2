@@ -1,7 +1,7 @@
 /**
  * Created by olegrovenskyi on 06.04.16.
  */
-var Todo = require('./api/todo/todo.model.js');
+// var Todo = require('./api/todo/todo.model.js');
 
 module.exports = function(app) {
     app.use('/api/todos', require('./api/todo/index'));
